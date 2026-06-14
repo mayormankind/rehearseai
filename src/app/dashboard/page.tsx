@@ -54,8 +54,8 @@ export default async function DashboardPage() {
   const recentSessions = (sessions ?? []).slice(0, 5);
 
   return (
-    <div className="p-4 md:p-8 lg:pl-8">
-      <div className="max-w-6xl mx-auto space-y-8">
+    <div className="h-screen overflow-y-auto p-4 md:p-8 lg:pl-8">
+      <div className="max-w-6xl mx-auto space-y-8 pb-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-8 lg:pt-0">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold text-foreground bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text">

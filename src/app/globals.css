@@ -5,6 +5,12 @@
   --foreground: #171717;
 }
 
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
+
+/* eslint-disable-next-line @typescript-eslint/no-unused-vars -- Tailwind v4 @theme rule */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
