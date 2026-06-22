@@ -7,7 +7,6 @@ import { z } from 'zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { createClient } from '@/lib/supabase/client';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Eye, EyeOff, Mic } from 'lucide-react';
@@ -15,7 +14,7 @@ import { Eye, EyeOff, Mic } from 'lucide-react';
 const registerSchema = z
   .object({
     name: z.string().min(2, 'Name must be at least 2 characters'),
-    email: z.string().email('Enter a valid email'),
+    email: z.email('Enter a valid email'),
     password: z.string().min(6, 'Password must be at least 6 characters'),
     confirmPassword: z.string(),
   })
@@ -31,8 +30,6 @@ export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const supabase = createClient();
-
   const {
     register,
     handleSubmit,
@@ -41,21 +38,22 @@ export default function RegisterPage() {
 
   const onSubmit = async (data: RegisterForm) => {
     setIsLoading(true);
-    const { error } = await supabase.auth.signUp({
-      email: data.email,
-      password: data.password,
-      options: { data: { name: data.name } },
+    const res = await fetch('/api/auth/send-verification', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: data.email, password: data.password, name: data.name }),
     });
 
-    if (error) {
-      toast.error(error.message);
+    const json = await res.json();
+
+    if (!res.ok) {
+      toast.error(json.error ?? 'Something went wrong.');
       setIsLoading(false);
       return;
     }
 
-    toast.success('Account created! Please check your email to verify your account.');
-    router.push('/dashboard');
-    router.refresh();
+    toast.success('Verification email sent! Check your inbox.');
+    router.push(`/verify?email=${encodeURIComponent(data.email)}`);
   };
 
   return (
