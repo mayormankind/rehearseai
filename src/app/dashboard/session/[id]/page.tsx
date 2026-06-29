@@ -147,7 +147,7 @@ export default function SessionPage() {
 
   if (loading) {
     return (
-      <div className="p-4 md:p-8 pt-16 lg:pt-8">
+      <div className="p-4 md:p-8 pt-8">
         <div className="max-w-4xl mx-auto">
           <div className="animate-pulse space-y-4">
             <div className="h-8 bg-muted rounded w-1/4" />
@@ -160,7 +160,7 @@ export default function SessionPage() {
 
   if (!session) {
     return (
-      <div className="p-4 md:p-8 pt-16 lg:pt-8">
+      <div className="p-4 md:p-8 pt-8">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-muted-foreground">Session not found</p>
         </div>
@@ -171,7 +171,7 @@ export default function SessionPage() {
   const analysis = Array.isArray(session.analysis) ? session.analysis[0] : session.analysis;
 
   return (
-    <div className="p-4 md:p-8 pt-16 lg:pt-8">
+    <div className="p-4 md:p-8 pt-8">
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
@@ -189,7 +189,7 @@ export default function SessionPage() {
                 />
                 <button
                   onClick={handleSaveTitle}
-                  className="p-2 text-green-600 hover:bg-green-100 rounded-lg transition-colors"
+                  className="p-2 text-accent hover:bg-accent/10 rounded-lg transition-colors"
                   aria-label="Save title"
                 >
                   <Check className="w-5 h-5" />
@@ -199,7 +199,7 @@ export default function SessionPage() {
                     setEditing(false);
                     setEditTitle(session.title);
                   }}
-                  className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors"
+                  className="p-2 text-destructive hover:bg-destructive/10 rounded-lg transition-colors"
                   aria-label="Cancel edit"
                 >
                   <X className="w-5 h-5" />
@@ -255,18 +255,18 @@ export default function SessionPage() {
 
         {session.status === 'processing' && (
           <div className="p-8 rounded-xl border border-border bg-card flex items-center gap-4">
-            <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+            <div className="w-8 h-8 rounded-full border-2 border-border border-t-primary animate-spin" />
             <p className="text-muted-foreground">Analysis in progress…</p>
           </div>
         )}
 
         {session.status === 'failed' && (
-          <div className="p-6 rounded-xl border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950">
-            <p className="text-red-700 dark:text-red-300 mb-4">Analysis failed. You can try re-analyzing this session.</p>
+          <div className="p-6 rounded-xl border border-destructive/20 bg-destructive/5">
+            <p className="text-destructive mb-4">Analysis failed. You can try re-analyzing this session.</p>
             <button
               onClick={handleReAnalyze}
               disabled={reanalyzing}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-destructive text-destructive-foreground font-medium rounded-xl hover:brightness-110 transition-all active:scale-[0.97] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {reanalyzing ? (
                 <>

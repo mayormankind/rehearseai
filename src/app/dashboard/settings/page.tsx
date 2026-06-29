@@ -52,14 +52,14 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="p-4 md:p-8 pt-16 lg:pt-8">
+    <div className="p-4 md:p-8 pt-8">
       <div className="max-w-2xl mx-auto space-y-8">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-foreground">Settings</h1>
           <p className="text-muted-foreground mt-1">Manage your account and preferences</p>
         </div>
 
-        <div className="p-6 rounded-xl border border-border bg-card space-y-6">
+        <div className="p-6 rounded-2xl border border-border bg-card space-y-6">
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
               <User className="w-8 h-8 text-primary" />
@@ -78,7 +78,7 @@ export default function SettingsPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your name"
-                className="w-full px-4 py-2.5 rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full px-4 py-2.5 rounded-xl border border-border bg-secondary text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               />
             </div>
 
@@ -88,7 +88,7 @@ export default function SettingsPage() {
                 type="email"
                 value={email}
                 disabled
-                className="w-full px-4 py-2.5 rounded-lg border border-border bg-secondary text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-2.5 rounded-xl border border-border bg-secondary text-foreground placeholder:text-muted-foreground focus:outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               />
               <p className="text-xs text-muted-foreground">Email cannot be changed</p>
             </div>
@@ -96,14 +96,14 @@ export default function SettingsPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 bg-primary hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3 bg-primary text-primary-foreground font-semibold rounded-xl hover:brightness-110 transition-all active:scale-[0.97] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? 'Saving…' : 'Save Changes'}
             </button>
           </form>
         </div>
 
-        <div className="p-6 rounded-xl border border-border bg-card space-y-4">
+        <div className="p-6 rounded-2xl border border-border bg-card space-y-4">
           <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
             <Settings className="w-5 h-5" />
             Appearance
@@ -148,14 +148,14 @@ export default function SettingsPage() {
           </div>
         </div>
 
-        <div className="p-6 rounded-xl border border-destructive/20 bg-destructive/5 space-y-4">
+        <div className="p-6 rounded-2xl border border-destructive/20 bg-destructive/5 space-y-4">
           <h3 className="text-lg font-semibold text-destructive flex items-center gap-2">
             <LogOut className="w-5 h-5" />
             Danger Zone
           </h3>
           <button
             onClick={handleSignOut}
-            className="w-full py-3 bg-destructive hover:bg-red-700 text-white font-semibold rounded-lg transition-colors"
+            className="w-full py-3 bg-destructive text-destructive-foreground font-semibold rounded-xl hover:brightness-110 transition-all active:scale-[0.97]"
           >
             Sign Out
           </button>

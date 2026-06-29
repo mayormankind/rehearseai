@@ -47,7 +47,7 @@ export function Waveform({ stream, isActive }: WaveformProps) {
       const { width, height } = canvas;
       ctx.clearRect(0, 0, width, height);
       ctx.lineWidth = 2.5;
-      ctx.strokeStyle = '#3b82f6';
+      ctx.strokeStyle = '#F59E0B';
       ctx.beginPath();
 
       const step = width / buffer.length;
@@ -79,7 +79,7 @@ export function Waveform({ stream, isActive }: WaveformProps) {
     const { width, height } = canvas;
     ctx.clearRect(0, 0, width, height);
     ctx.lineWidth = 1.5;
-    ctx.strokeStyle = '#6b7280';
+    ctx.strokeStyle = '#2D2620';
     ctx.beginPath();
     ctx.moveTo(0, height / 2);
     ctx.lineTo(width, height / 2);
@@ -87,7 +87,7 @@ export function Waveform({ stream, isActive }: WaveformProps) {
   }
 
   return (
-    <div className="w-full rounded-lg bg-gray-100 dark:bg-gray-900 overflow-hidden" style={{ height: 80 }}>
+    <div className="w-full rounded-xl bg-secondary overflow-hidden" style={{ height: 80 }}>
       <canvas ref={canvasRef} className="w-full h-full" width={800} height={80} />
     </div>
   );

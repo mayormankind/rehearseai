@@ -36,9 +36,9 @@ interface FeedbackDisplayProps {
 }
 
 const severityColors: Record<string, string> = {
-  info: 'bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-200',
-  warning: 'bg-yellow-50 dark:bg-yellow-950 border-yellow-200 dark:border-yellow-800 text-yellow-800 dark:text-yellow-200',
-  error: 'bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800 text-red-800 dark:text-red-200',
+  info:    'bg-secondary border-border text-foreground',
+  warning: 'bg-primary/8 border-primary/25 text-primary',
+  error:   'bg-destructive/8 border-destructive/25 text-destructive',
 };
 
 const severityIcons: Record<string, React.ReactNode> = {
@@ -72,7 +72,7 @@ export function FeedbackDisplay({ analysis, suggestions = [], transcript }: Feed
 
   return (
     <div className="space-y-6">
-      <div className="p-6 rounded-xl border border-border bg-card">
+      <div className="p-6 rounded-2xl border border-border bg-card">
         <h3 className="text-lg font-semibold text-foreground mb-6">Performance Overview</h3>
         <div className="flex flex-col lg:flex-row items-center gap-8">
           <ScoreGauge score={analysis.overall_score} />
@@ -80,19 +80,19 @@ export function FeedbackDisplay({ analysis, suggestions = [], transcript }: Feed
           <div className="flex-1 w-full h-56">
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart data={radarData}>
-                <PolarGrid stroke="#374151" />
-                <PolarAngleAxis dataKey="metric" tick={{ fill: '#6b7280', fontSize: 12 }} />
+                <PolarGrid stroke="#2D2620" />
+                <PolarAngleAxis dataKey="metric" tick={{ fill: '#8A7060', fontSize: 12 }} />
                 <PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} />
                 <Radar
                   dataKey="score"
-                  stroke="#3b82f6"
-                  fill="#3b82f6"
-                  fillOpacity={0.25}
+                  stroke="#F59E0B"
+                  fill="#F59E0B"
+                  fillOpacity={0.15}
                   strokeWidth={2}
                 />
                 <Tooltip
                   formatter={(v: number) => [`${v}/100`, 'Score']}
-                  contentStyle={{ background: 'var(--background)', border: '1px solid var(--border)' }}
+                  contentStyle={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: '0.75rem' }}
                 />
               </RadarChart>
             </ResponsiveContainer>
@@ -132,7 +132,7 @@ export function FeedbackDisplay({ analysis, suggestions = [], transcript }: Feed
       </div>
 
       {analysis.feedback && analysis.feedback.length > 0 && (
-        <div className="p-6 rounded-xl border border-border bg-card space-y-3">
+        <div className="p-6 rounded-2xl border border-border bg-card space-y-3">
           <h3 className="text-lg font-semibold text-foreground">Detailed Feedback</h3>
           {analysis.feedback.map((item, i) => (
             <div
@@ -150,7 +150,7 @@ export function FeedbackDisplay({ analysis, suggestions = [], transcript }: Feed
       )}
 
       {suggestions.length > 0 && (
-        <div className="p-6 rounded-xl border border-border bg-card space-y-3">
+        <div className="p-6 rounded-2xl border border-border bg-card space-y-3">
           <h3 className="text-lg font-semibold text-foreground">Suggestions</h3>
           <ul className="space-y-2">
             {suggestions.map((s, i) => (
@@ -164,7 +164,7 @@ export function FeedbackDisplay({ analysis, suggestions = [], transcript }: Feed
       )}
 
       {transcript && (
-        <div className="p-6 rounded-xl border border-border bg-card space-y-3">
+        <div className="p-6 rounded-2xl border border-border bg-card space-y-3">
           <h3 className="text-lg font-semibold text-foreground">Transcript</h3>
           <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap">{transcript}</p>
         </div>

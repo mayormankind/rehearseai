@@ -38,20 +38,22 @@ export function AnalyticsChart({ data }: AnalyticsChartProps) {
       <div className="h-48">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-            <XAxis dataKey="label" tick={{ fill: '#6b7280', fontSize: 11 }} />
-            <YAxis domain={[0, 100]} tick={{ fill: '#6b7280', fontSize: 11 }} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#2D2620" />
+            <XAxis dataKey="label" tick={{ fill: '#8A7060', fontSize: 11 }} />
+            <YAxis domain={[0, 100]} tick={{ fill: '#8A7060', fontSize: 11 }} />
             <Tooltip
               formatter={(v: number) => [`${v}`, 'Score']}
-              contentStyle={{ background: 'var(--background)', border: '1px solid var(--border)' }}
+              contentStyle={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: '0.75rem' }}
+              labelStyle={{ color: 'var(--foreground)' }}
+              itemStyle={{ color: 'var(--foreground)' }}
             />
             <Line
               type="monotone"
               dataKey="score"
-              stroke="#3b82f6"
+              stroke="#F59E0B"
               strokeWidth={2.5}
-              dot={{ r: 4, fill: '#3b82f6' }}
-              activeDot={{ r: 6 }}
+              dot={{ r: 4, fill: '#F59E0B', strokeWidth: 0 }}
+              activeDot={{ r: 6, fill: '#F59E0B', strokeWidth: 0 }}
             />
           </LineChart>
         </ResponsiveContainer>
