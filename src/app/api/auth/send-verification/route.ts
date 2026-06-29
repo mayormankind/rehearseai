@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createHash, randomInt } from 'crypto';
 import { createServiceClient } from '@/lib/supabase/server';
 import { transporter } from '@/lib/email/mailer';
 import { buildVerificationEmail } from '@/lib/email/templates/verificationEmail';
+
+const FROM_ADDRESS = `"RehearseAI" <${process.env.EMAIL_USER}>`;
+const OTP_TTL_MS = 10 * 60 * 1000; // 10 minutes
+
+function hashOtp(otp: string) {
+  return createHash('sha256').update(otp).digest('hex');
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,37 +22,33 @@ export async function POST(request: NextRequest) {
     const supabase = createServiceClient();
     const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
 
-    const { data, error } = await supabase.auth.admin.generateLink({
-      type: 'signup',
-      email,
-      password,
-      options: {
-        data: { name },
-        redirectTo: `${appUrl}/dashboard`,
-      },
-    });
+    // Generate our own 6-digit numeric OTP
+    const otp = String(randomInt(100000, 999999));
+    const otpHash = hashOtp(otp);
+    const expiresAt = new Date(Date.now() + OTP_TTL_MS).toISOString();
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 });
+    // Upsert pending verification (replaces any previous attempt for this email)
+    const { error: dbError } = await supabase
+      .from('pending_verifications')
+      .upsert({ email, name, otp_hash: otpHash, expires_at: expiresAt });
+
+    if (dbError) {
+      console.error('[send-verification] DB upsert failed:', dbError);
+      return NextResponse.json({ error: 'Could not store verification. Try again.' }, { status: 500 });
     }
 
-    const otp = data.properties.email_otp;
-    const confirmationLink = data.properties.action_link;
+    const { subject, html } = buildVerificationEmail({ name, otp, confirmationLink: `${appUrl}/verify?email=${encodeURIComponent(email)}`, appUrl });
 
-    const { subject, html } = buildVerificationEmail({
-      name,
-      otp,
-      confirmationLink,
-      appUrl,
-    });
+    try {
+      await transporter.verify();
+    } catch (smtpErr) {
+      console.error('[send-verification] SMTP connection failed:', smtpErr);
+      return NextResponse.json({ error: 'Email service unavailable. Check SMTP credentials.' }, { status: 500 });
+    }
 
-    await transporter.sendMail({
-      from: `"RehearseAI" <${process.env.EMAIL_FROM}>`,
-      to: email,
-      subject,
-      html,
-    });
+    const info = await transporter.sendMail({ from: FROM_ADDRESS, to: email, subject, html });
 
+    console.log('[send-verification] OTP sent:', info.messageId, '→', email);
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error('[send-verification] Unexpected error:', err);

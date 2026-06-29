@@ -57,16 +57,16 @@ export default function RecordPage() {
   };
 
   return (
-    <div className="p-4 md:p-8 pt-16 lg:pt-8">
+    <div className="p-4 md:p-8 pt-8">
       <div className="max-w-2xl mx-auto space-y-8">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-foreground">New Recording</h1>
-          <p className="text-muted-foreground mt-1">Record your presentation and get AI-powered feedback.</p>
+          <p className="text-muted-foreground mt-1 text-sm">Record your presentation and get AI-powered feedback.</p>
         </div>
 
         {(stage === 'setup' || stage === 'record') && (
-          <div className="p-4 md:p-6 rounded-xl border border-border bg-card space-y-6">
-            <div className="space-y-2">
+          <div className="p-5 md:p-7 rounded-2xl border border-border bg-card space-y-6">
+            <div className="space-y-1.5">
               <label className="block text-sm font-medium text-foreground">Session Title</label>
               <input
                 type="text"
@@ -74,14 +74,14 @@ export default function RecordPage() {
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Q3 Investor Pitch"
                 disabled={stage === 'record'}
-                className="w-full px-4 py-2.5 rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50"
+                className="w-full px-4 py-2.5 rounded-xl border border-border bg-secondary text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all disabled:opacity-50"
               />
             </div>
 
             {stage === 'setup' ? (
               <button
                 onClick={handleStart}
-                className="w-full py-3 bg-primary hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+                className="w-full py-3 bg-primary text-primary-foreground font-semibold rounded-xl hover:brightness-110 transition-all active:scale-[0.97]"
               >
                 Set Up Recorder
               </button>
@@ -92,16 +92,18 @@ export default function RecordPage() {
         )}
 
         {(stage === 'uploading' || stage === 'analyzing') && (
-          <div className="p-8 md:p-12 rounded-xl border border-border bg-card flex flex-col items-center gap-4">
-            <div className="w-12 h-12 rounded-full border-4 border-primary border-t-transparent animate-spin" />
-            <p className="text-lg font-semibold text-foreground">
-              {stage === 'uploading' ? 'Uploading recording…' : 'Analyzing with AI…'}
-            </p>
-            <p className="text-sm text-muted-foreground text-center">
-              {stage === 'analyzing'
-                ? 'Transcribing audio and generating personalised feedback. This may take a minute.'
-                : 'Securely uploading your audio file.'}
-            </p>
+          <div className="p-10 md:p-14 rounded-2xl border border-border bg-card flex flex-col items-center gap-5">
+            <div className="w-11 h-11 rounded-full border-2 border-border border-t-primary animate-spin" />
+            <div className="text-center space-y-1">
+              <p className="text-base font-semibold text-foreground">
+                {stage === 'uploading' ? 'Uploading recording…' : 'Analyzing with AI…'}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {stage === 'analyzing'
+                  ? 'Transcribing and generating personalised feedback. This may take a minute.'
+                  : 'Securely uploading your audio file.'}
+              </p>
+            </div>
           </div>
         )}
       </div>

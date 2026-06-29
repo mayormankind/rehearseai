@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 import { createClient } from '@/lib/supabase/client';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
-import { Eye, EyeOff, Mic } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 
 const loginSchema = z.object({
   email: z.string().email('Enter a valid email'),
@@ -50,74 +50,55 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-blue-600 mb-4 shadow-lg shadow-primary/25">
-            <Mic className="w-8 h-8 text-white" />
-          </div>
-          <h1 className="text-4xl font-bold text-foreground tracking-tight">
-            Rehearse<span className="text-primary">AI</span>
-          </h1>
-          <p className="mt-2 text-muted-foreground">Master your presentations with AI-powered feedback</p>
-        </div>
-
-        <div className="p-8 rounded-2xl border border-border/50 bg-card/80 backdrop-blur-xl shadow-2xl shadow-black/5 space-y-6">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            <Input
-              label="Email"
-              type="email"
-              placeholder="you@example.com"
-              error={errors.email?.message}
-              {...register('email')}
-            />
-            <div className="relative">
-              <Input
-                label="Password"
-                type={showPassword ? 'text' : 'password'}
-                placeholder="••••••••"
-                error={errors.password?.message}
-                {...register('password')}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-9 text-muted-foreground hover:text-foreground transition-colors"
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
-              >
-                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-              </button>
-            </div>
-            <Button
-              type="submit"
-              className="w-full py-3 bg-gradient-to-r from-primary to-blue-600 hover:from-blue-600 hover:to-primary text-white font-semibold rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/25"
-              disabled={isLoading}
-            >
-              {isLoading ? 'Signing in…' : 'Sign In'}
-            </Button>
-          </form>
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-border" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-card/80 backdrop-blur-xl text-muted-foreground">or</span>
-            </div>
-          </div>
-
-          <p className="text-center text-sm text-muted-foreground">
-            Don&apos;t have an account?{' '}
-            <Link href="/register" className="text-primary hover:underline font-medium transition-colors">
-              Create one
-            </Link>
-          </p>
-        </div>
-
-        <p className="text-center text-xs text-muted-foreground mt-6">
-          By signing in, you agree to our Terms of Service and Privacy Policy
-        </p>
+    <div className="space-y-7 animate-slide-up">
+      <div className="space-y-1">
+        <h1 className="text-2xl font-bold text-foreground">Welcome back</h1>
+        <p className="text-sm text-muted-foreground">Sign in to your account to continue</p>
       </div>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <Input
+          label="Email"
+          type="email"
+          placeholder="you@example.com"
+          error={errors.email?.message}
+          {...register('email')}
+        />
+        <div className="relative">
+          <Input
+            label="Password"
+            type={showPassword ? 'text' : 'password'}
+            placeholder="••••••••"
+            error={errors.password?.message}
+            {...register('password')}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-9 text-muted-foreground hover:text-foreground transition-colors"
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
+          >
+            {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+          </button>
+        </div>
+        <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+          {isLoading ? 'Signing in…' : 'Sign In'}
+        </Button>
+      </form>
+
+      <p className="text-center text-sm text-muted-foreground">
+        Don&apos;t have an account?{' '}
+        <Link href="/register" className="text-primary font-medium hover:brightness-125 transition-all">
+          Create one
+        </Link>
+      </p>
+
+      <p className="text-center text-xs text-muted-foreground/60">
+        By signing in you agree to our{' '}
+        <a href="#" className="underline underline-offset-2 hover:text-muted-foreground transition-colors">Terms</a>
+        {' '}and{' '}
+        <a href="#" className="underline underline-offset-2 hover:text-muted-foreground transition-colors">Privacy Policy</a>
+      </p>
     </div>
   );
 }
